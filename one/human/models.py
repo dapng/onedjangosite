@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Human(models.Model):
     title = models.CharField(max_length=256)
     content = models.TextField(blank=True)
