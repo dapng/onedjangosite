@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models import Human
 
 
-menu = ['test 1', 'test 2', 'test 3', 'test 4', 'test 5']
+menu = ['#', '#', '#', '#', '#']
 
 
 def index(request):
