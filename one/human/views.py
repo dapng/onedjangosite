@@ -1,5 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, redirect
+
+from .forms import AddPostForm
 from .models import Human, Category
 
 
@@ -13,10 +15,8 @@ menu = [
 
 def index(request):
     posts = Human.objects.all()
-    cats = Category.objects.all()
     context = {
         'posts': posts,
-        'cats': cats,
         'menu': menu,
         'title': 'Main page',
         'cat_selected': 0}
@@ -31,7 +31,17 @@ def about(request):
 
 
 def add_page(request):
-    return HttpResponse('Add page')
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            try:
+                Human.objects.create(**form.cleaned_data)
+                return redirect('home')
+            except:
+                form.add_error(None, 'Ошибка добавления')
+    else:
+        form = AddPostForm()
+    return render(request, 'human/addpage.html', {'form': form, 'menu': menu, 'title': 'Добавление статьи'})
 
 
 def contact(reauest):
@@ -42,23 +52,28 @@ def login(request):
     return HttpResponse('Login page')
 
 
-def show_post(request, post_id):
-    return HttpResponse(f'Отображение статьи с id = {post_id}')
+def show_post(request, post_slug):
+    post = get_object_or_404(Human, slug=post_slug)
+    context = {
+        'post': post,
+        'menu': menu,
+        'title': post.title,
+        'cat_selected': post.cat_id}
+    return render(request, 'human/post.html', context=context)
 
 
-def show_category(request, cat_id):
-    posts = Human.objects.filter(cat_id=cat_id)
-    cats = Category.objects.all()
+def show_category(request, cat_slug):
+    cat = Category.objects.filter(slug=cat_slug)
+    posts = Human.objects.filter(cat_id=cat[0].id)
 
     if len(posts) == 0:
         raise Http404
 
     context = {
         'posts': posts,
-        'cats': cats,
         'menu': menu,
         'title': 'Отображение по категориям',
-        'cat_selected': cat_id}
+        'cat_selected': cat[0].id}
     return render(request, 'human/index.html', context=context)
 
 
