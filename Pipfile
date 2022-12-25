@@ -6,8 +6,12 @@ name = "pypi"
 [packages]
 django = "*"
 pillow = "*"
+flake8 = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+lint = "flake8 --exclude=tests --ignore=E121,E501 ."

@@ -1,18 +1,24 @@
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
-from .models import *
+from .models import Human
 
 
-menu = ['test 1', 'test 2', 'test 3', 'test 4', 'test 5']
+menu = ['#', '#', '#', '#', '#']
 
 
 def index(request):
     posts = Human.objects.all()
-    return render(request, 'human/index.html', {'posts': posts ,'menu': menu, 'title': 'Main page'})
+    return render(
+        request,
+        'human/index.html',
+        {'posts': posts, 'menu': menu, 'title': 'Main page'})
 
 
 def about(request):
-    return render(request, 'human/about.html', {'menu': menu, 'title': 'About page'})
+    return render(
+        request,
+        'human/about.html',
+        {'menu': menu, 'title': 'About page'})
 
 
 def catigories(request, cat):
