@@ -32,12 +32,12 @@ def about(request):
 
 def add_page(request):
     if request.method == 'POST':
-        form = AddPostForm(request.POST)
+        form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                Human.objects.create(**form.cleaned_data)
+                form.save()
                 return redirect('home')
-            except:
+            except Exception:
                 form.add_error(None, 'Ошибка добавления')
     else:
         form = AddPostForm()
