@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import get_object_or_404, render, redirect
-
+from django.views.generic import ListView
 from .forms import AddPostForm
 from .models import Human, Category
 
@@ -13,14 +13,27 @@ menu = [
 ]
 
 
-def index(request):
-    posts = Human.objects.all()
-    context = {
-        'posts': posts,
-        'menu': menu,
-        'title': 'Main page',
-        'cat_selected': 0}
-    return render(request, 'human/index.html', context=context)
+class HumanHome(ListView):
+    model = Human
+    template_name = 'human/index.html'
+    context_object_name = 'posts'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Главная'
+        context['cat_selected'] = 0
+        return context
+
+
+# def index(request):
+#     posts = Human.objects.all()
+#     context = {
+#         'posts': posts,
+#         'menu': menu,
+#         'title': 'Main page',
+#         'cat_selected': 0}
+#     return render(request, 'human/index.html', context=context)
 
 
 def about(request):
