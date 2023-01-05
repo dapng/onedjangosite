@@ -1,9 +1,9 @@
-from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from .forms import AddPostForm
-from .models import Human, Category
+from .models import Human
 
 
 menu = [
@@ -25,7 +25,7 @@ class HumanHome(ListView):
         context['title'] = 'Главная'
         context['cat_selected'] = 0
         return context
-    
+
     def get_queryset(self):
         return Human.objects.filter(is_published=True)
 
