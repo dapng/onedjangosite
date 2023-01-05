@@ -88,4 +88,4 @@ class HumanCategory(ListView):
 
 
 def pageNotFound(request, exception):
-    return HttpResponseNotFound('<h1>page not found</h1>')
+    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
