@@ -10,6 +10,8 @@ menu = [
 
 
 class DataMixin:
+    paginate_by = 3
+
     def get_user_context(self, **kwargs):
         context = kwargs
         cats = Category.objects.annotate(Count('human'))
@@ -18,6 +20,6 @@ class DataMixin:
             user_menu.pop(1)
         context['menu'] = user_menu
         context['cats'] = cats
-        if 'cats_selected' not in context:
+        if 'cat_selected' not in context:
             context['cat_selected'] = 0
         return context
