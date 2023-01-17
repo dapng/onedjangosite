@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login as ligin_user
 from .forms import AddPostForm, RegisterUserForm, LoginUserForm
-from .models import Human
+from .models import Human, Category
 from .utils import DataMixin, menu
 
 
@@ -21,7 +21,7 @@ class HumanHome(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return Human.objects.filter(is_published=True)
+        return Human.objects.filter(is_published=True).select_related('cat')
 
 
 def about(request):
@@ -71,12 +71,13 @@ class HumanCategory(DataMixin, ListView):
     allow_empty = False
 
     def get_queryset(self):
-        return Human.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True)
+        return Human.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True).select_related('cat')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Категория - ' + str(context['posts'][0].cat),
-                                      cat_selected=context['posts'][0].cat_id)
+        c = Category.objects.get(slug=self.kwargs['cat_slug'])
+        c_def = self.get_user_context(title='Категория - ' + str(c.name),
+                                      cat_selected=c.pk)
         return dict(list(context.items()) + list(c_def.items()))
 
 
