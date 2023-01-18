@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.db.models import Count
 from .models import Category
 
@@ -13,6 +14,10 @@ class DataMixin:
 
     def get_user_context(self, **kwargs):
         context = kwargs
+        cats = cache.get('cats')
+        if not cats:
+            cats = Category.objects.annotate(Count('human'))
+            cache.set('cats', cats, 60)
         cats = Category.objects.annotate(Count('human'))
         user_menu = menu.copy()
         if not self.request.user.is_authenticated:
