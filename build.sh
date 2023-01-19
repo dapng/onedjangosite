@@ -1,10 +1,10 @@
 echo "Build project..."
-python3.10 -m pip install --upgrade pip
-python3.10 -m pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 echo "Make migration..."
-python3.10 manage.py makemigrations --noinput
-python3.10 manage.py migrate --noinput
+python manage.py makemigrations --noinput
+python manage.py migrate --noinput
 
 echo "Collect static..."
-python3.10 manage.py collectstatic --noinput
+python manage.py collectstatic --noinput
