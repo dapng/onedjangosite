@@ -5,7 +5,8 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login as ligin_user
-from .forms import AddPostForm, RegisterUserForm, LoginUserForm
+from django.views.generic import FormView
+from .forms import AddPostForm, ContactForm, RegisterUserForm, LoginUserForm
 from .models import Human, Category
 from .utils import DataMixin, menu
 
@@ -44,8 +45,23 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
-def contact(reauest):
-    return HttpResponse('Contact page')
+# def contact(reauest):
+#     return HttpResponse('Contact page')
+
+class ContactFormView(DataMixin, FormView):
+    form_class = ContactForm
+    template_name = 'human/contact.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Обратная связь')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form) -> HttpResponse:
+        user = form.save()
+        ligin_user(self.request, user)
+        return redirect('home')
 
 
 def login(request):
