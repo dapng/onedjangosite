@@ -15,7 +15,7 @@ python-decouple = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.9"
 
 [scripts]
 lint = "flake8 --exclude=tests --ignore=E121,E501 ."
