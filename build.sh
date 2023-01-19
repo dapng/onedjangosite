@@ -8,3 +8,10 @@ python3.9 manage.py migrate --noinput
 
 echo "Collect static..."
 python3.9 manage.py collectstatic --noinput
+
+echo "Create superuser..."
+python3.9 manage.py createsuperuser
+admin
+admin@admin.com
+admin
+y
