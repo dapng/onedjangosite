@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "onedjangosite/one/one/wsgi.py",
+            "src": "one/wsgi.py",
             "use": "@vercel/python",
             "config": {
                 "maxLambdaSize": "15mb",
@@ -24,7 +24,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "onedjangosite/one/one/wsgi.py"
+            "dest": "one/wsgi.py"
         }
     ]
 }
