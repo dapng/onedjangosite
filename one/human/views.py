@@ -21,7 +21,7 @@ class HumanHome(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return Human.objects.filter(is_published=True).select_related('cat')
+        return Human.objects.filter(is_published=True)
 
 
 def about(request):
