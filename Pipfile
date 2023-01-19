@@ -7,6 +7,7 @@ name = "pypi"
 django = "*"
 pillow = "*"
 flake8 = "*"
+django-simple-captcha = "*"
 
 [dev-packages]
 
