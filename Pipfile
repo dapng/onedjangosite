@@ -8,6 +8,9 @@ django = "*"
 pillow = "*"
 flake8 = "*"
 django-simple-captcha = "*"
+psycopg2 = "*"
+dj-database-url = "*"
+python-decouple = "*"
 
 [dev-packages]
 
