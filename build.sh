@@ -10,4 +10,3 @@ echo "Collect static..."
 python3.9 manage.py collectstatic --noinput
 
 echo "Create superuser..."
-echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('*', '*', '*')" | python3.9 manage.py shell
